@@ -24,7 +24,7 @@ class TrajectoryEdgeStream(BaseStream):
         Randonly generated with UUID v4, if not provided.
     """
 
-    def get_graph():
+    def get_graph(self):
         """Get this edge stream as an aggregated graph.
 
         Returns
@@ -32,8 +32,8 @@ class TrajectoryEdgeStream(BaseStream):
         nx.Graph
             The aggregated graph.
         """
-        G = nx.Graph()
+        G = nx.MultiGraph()
         for e in self:
             G.add_edge(e['from'], e['to'], first=e['first'], last=e['last'],
-                duration=(first=e['last'] - first=e['first']))
+                duration=(e['last'] - e['first']))
         return G

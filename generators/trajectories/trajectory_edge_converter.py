@@ -106,7 +106,8 @@ class TrajectoryEdgeConverter():
 
             # update finished edges (always the last contact in the list)
             for edge in prev_edges - next_edges:
-                active[edge][len(active[edge])-1] = (active[edge][0],G.time-1)
+                active[edge][len(active[edge])-1] = (active[edge][0][0],
+                                                     G.time-1)
 
             # check top of heap for finished edges
             while(len(heap) > 0 and active[heap[0][1]][0][1] is not None):
@@ -120,6 +121,9 @@ class TrajectoryEdgeConverter():
                     del active[edge]
 
                 yield edge_dict
+
+            print("Converted graph for time: {}".format(G.time), end="\r")
+        print("")
 
 
     def get_edge_stream(self, stream):
