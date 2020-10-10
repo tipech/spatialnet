@@ -5,7 +5,7 @@ that represents an iterator of Particle streams.
 
 """
 
-from networkx import Graph
+import networkx as nx
 from common.generic.iterators import BaseStream
 
 
@@ -24,18 +24,16 @@ class TrajectoryEdgeStream(BaseStream):
         Randonly generated with UUID v4, if not provided.
     """
 
-    def __init__(self, items, id=''):
-        """Initialize a new objects collection iterator from a source.
+    def get_graph():
+        """Get this edge stream as an aggregated graph.
 
-        Optionally provide an id.
-
-        Params
-        ------
-        items : Iterator
-            The Graph objects to be used for this stream.
-        id : str or int
-            The unique identifier for this TrajectoryEdgeStream.
-            Randonly generated with UUID v4, if not provided.
+        Returns
+        -------
+        nx.Graph
+            The aggregated graph.
         """
-
-        super().__init__(items=items, id=id)
+        G = nx.Graph()
+        for e in self:
+            G.add_edge(e['from'], e['to'], first=e['first'], last=e['last'],
+                duration=(first=e['last'] - first=e['first']))
+        return G
