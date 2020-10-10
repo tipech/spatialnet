@@ -7,10 +7,9 @@ that represents an iterator of Particle streams.
 
 from networkx import Graph
 from common.generic.iterators import BaseStream
-from common.generic.objects import IdObject
 
 
-class TrajectoryEdgeStream(BaseStream, IdObject):
+class TrajectoryEdgeStream(BaseStream):
     """An iterator over static graph snapshots.
 
     Provides methods for reading and saving streams of Graph
@@ -21,7 +20,7 @@ class TrajectoryEdgeStream(BaseStream, IdObject):
     items : Iterator
         The Graph objects to be used for this stream.
     id : str or int
-        The unique identifier for this SpatialSet.
+        The unique identifier for this TrajectoryEdgeStream.
         Randonly generated with UUID v4, if not provided.
     """
 
@@ -35,7 +34,7 @@ class TrajectoryEdgeStream(BaseStream, IdObject):
         items : Iterator
             The Graph objects to be used for this stream.
         id : str or int
-            The unique identifier for this BaseStream.
+            The unique identifier for this TrajectoryEdgeStream.
             Randonly generated with UUID v4, if not provided.
         """
 

@@ -137,9 +137,13 @@ class TrajectoryEdgeConverter():
         """
 
         if self.sort:
-            return TrajectoryEdgeStream(id=stream.id,
-                items=self.get_edge_sorted(stream))
+            iterator = self.get_edge_sorted(stream)
+
         else:
-            return TrajectoryEdgeStream(id=stream.id,
-                items=self.get_edge(stream))
+            iterator = self.get_edge(stream)
+
+        id = str(stream.id)
+        id = id.replace("trajectory_networks", "trajectory_edges")
+
+        return TrajectoryEdgeStream(items=iterator, id=id)
             

@@ -6,7 +6,7 @@ a unique id.
 
 from uuid import uuid4
 
-class IdObject(object):
+class IdObject():
     """Generic class for an object with (auto) assigned id.
 
     Params
@@ -28,7 +28,8 @@ class IdObject(object):
             Further keyword arguments, added for super() compatibility
         """
 
-        if len(str(id)) == 0:
+        id = str(id)
+        if len(id) == 0:
             id = str(uuid4())[:8]
 
         self.id = id

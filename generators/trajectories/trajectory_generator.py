@@ -180,7 +180,7 @@ class TrajectoryGenerator(SpatialGenerator,TimeGenerator):
         
 
 
-    def get_trajectory_stream(self, n):
+    def get_trajectory_stream(self, n, id=''):
         """Randomly generate N moving object trajectories.
 
         Generation happens according to generator parameters.
@@ -189,6 +189,8 @@ class TrajectoryGenerator(SpatialGenerator,TimeGenerator):
         ------
         n : int
             The number of trajectories the stream should contain.
+        id : str (optional, default: parameter stream)
+            An id to name the string after
 
         Returns
         -------
@@ -204,4 +206,12 @@ class TrajectoryGenerator(SpatialGenerator,TimeGenerator):
         for i in range(n - int(n * self.initial)):
             time_counts[self.get_moment()] += 1
 
-        return TrajectoryStream(self.get_particle_stream(time_counts))
+
+        iterator = self.get_particle_stream(time_counts)
+
+        if len(id) == 0:
+            id = "trajectories_n{}_d{}_t{}".format(
+                n, self.dimension, self.duration)
+
+        return TrajectoryStream(items=iterator, id=id,
+            dimension=self.dimension)

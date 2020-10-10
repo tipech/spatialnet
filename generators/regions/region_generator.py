@@ -57,7 +57,7 @@ class RegionGenerator(SpatialGenerator):
             squares or regular rectangles. True for squares.
         """
 
-        super().__init__(bounds=bounds,dimension=dimension,posrng=posrng)
+        super().__init__(bounds=bounds, dimension=dimension, posrng=posrng)
 
         # size pc init
         ndunit_region = Region.from_interval(Interval(0,1), self.dimension)
@@ -111,13 +111,15 @@ class RegionGenerator(SpatialGenerator):
         return Region.from_coords(lower, upper)
 
         
-    def get_region_stream(self, n):
+    def get_region_stream(self, n, id=''):
         """Iteratively generate N random Regions based on parameters.
 
         Params
         ------
         n : int
             The number of regions the resulting set should contain.
+        id : str (optional, default: parameter stream)
+            An id to name the string after
 
         Returns
         -------
@@ -125,5 +127,14 @@ class RegionGenerator(SpatialGenerator):
             A stream of generated regions in a RegionStream.
         """
 
-        return RegionStream((self.get_region() for r in range(n)))
+        iterator = (self.get_region() for r in range(n))
+
+        if len(id) == 0:
+            id = "regions_d{}_n{}_size({}-{})_{}".format(self.dimension, n,
+                self.sizepc.lower[0], self.sizepc.lower[0],
+                self.posrng[0].__name__)
+            if self.square:
+                id += "_square"
+
+        return RegionStream(items=iterator, id=id, dimension=self.dimension)
         

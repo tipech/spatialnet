@@ -9,7 +9,7 @@ Generic Classes:
 from jsonpickle import Pickler
 
 
-class SerializableObject(object):
+class SerializableObject():
     """Generic class for a (de)serializable object."""
 
 

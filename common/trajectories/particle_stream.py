@@ -19,23 +19,33 @@ class ParticleStream(BaseStream):
     ------
     items : Iterator
         The Particle data items to be used for this stream.
-    id : str or int
-        The unique identifier for this SpatialSet.
-        Randonly generated with UUID v4, if not provided.
+    dimension : int
+        The number of dimensions of items in this stream
+    id : str
+        The id for this stream
+    time : int (optional)
+        The timestamp this corresponds to.
     """
 
-    def __init__(self, items, time=None):
+    def __init__(self, items, dimension=2, id='', time=None):
         """Initialize a new particle iterator from a source, with time.
 
         Params
         ------
         items : Iterator
             The data source to be used for this stream.
+        dimension : int
+            The number of dimensions of items in this stream
+        id : str
+            The id for this stream
         time : int (optional)
             The timestamp this corresponds to.
         """
 
-        super().__init__(items=items)
+        if len(id) == 0:
+            id = time
+
+        super().__init__(items=items, dimension=dimension, id=id)
 
         self.time = time
 

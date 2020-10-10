@@ -44,12 +44,12 @@ class TrajectoryNetConstructor():
         return G
 
 
-    def get_trajectorynet(self, trajectories, distance=50):
+    def get_trajectorynet(self, stream, distance=50):
         """Get a trajectory network from the provided trajectories.
 
         Params
         ------
-        trajectories : TrajectoryStream
+        stream : TrajectoryStream
             An iterator over ParticleStream objects.
         distance : int or float (optional, default: 50)
             The distance threshold within which objects are considered
@@ -61,7 +61,10 @@ class TrajectoryNetConstructor():
             The generated regions in a TrajectoryNetStream.
         """
 
-        return TrajectoryNetStream(id=trajectories.id,
-            items=(self.get_proximitynet(ps, distance)
-                for ps in trajectories))
-            
+        id = stream.id
+        id = id.replace("trajectories", "trajectory_networks")
+        iterator = (self.get_proximitynet(ps, distance)
+                for ps in stream)
+
+        return TrajectoryNetStream(items=iterator, id=id,
+            dimension=stream.dimension)

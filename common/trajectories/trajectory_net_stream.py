@@ -7,11 +7,10 @@ that represents an iterator of Graph objects.
 
 from networkx import Graph
 from common.generic.iterators import BaseStream
-from common.generic.objects import IdObject
 from common.regions import Region
 
 
-class TrajectoryNetStream(BaseStream, IdObject):
+class TrajectoryNetStream(BaseStream):
     """An iterator over static graph snapshots.
 
     Provides methods for reading and saving streams of Graph
@@ -26,22 +25,6 @@ class TrajectoryNetStream(BaseStream, IdObject):
         Randonly generated with UUID v4, if not provided.
     """
 
-    def __init__(self, items, id=''):
-        """Initialize a new objects collection iterator from a source.
-
-        Optionally provide an id.
-
-        Params
-        ------
-        items : Iterator
-            The Graph objects to be used for this stream.
-        id : str or int
-            The unique identifier for this BaseStream.
-            Randonly generated with UUID v4, if not provided.
-        """
-
-        super().__init__(items=items, id=id)
-
 
     def calculate_bounds(self):
         """Automatically calculate and set this Stream's bounds.
@@ -54,18 +37,13 @@ class TrajectoryNetStream(BaseStream, IdObject):
         Region
             The new bounds.
         """
+        
+        item_list = self.checkpoint()
 
-        # store trajectories to list and reset iterator
-        snapshots = list(self.items)
-        if len(snapshots) == 0:
-            raise StopIteration
-        self.items = iter(snapshots)
-        dims =len(snapshots[0].nodes[list(snapshots[0].nodes)[0]]['pos'])
-
-        lower = [min(n[1][d] for G in snapshots
-            for n in G.nodes(data='pos')) for d in range(dims)]
-        upper = [max(n[1][d] for G in snapshots
-            for n in G.nodes(data='pos')) for d in range(dims)]
+        lower = [min(n[1][d] for G in item_list
+            for n in G.nodes(data='pos')) for d in range(self.dimension)]
+        upper = [max(n[1][d] for G in item_list
+            for n in G.nodes(data='pos')) for d in range(self.dimension)]
         
         return Region.from_coords(lower=lower, upper=upper)
 
