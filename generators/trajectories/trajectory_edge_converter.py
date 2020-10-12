@@ -52,6 +52,7 @@ class TrajectoryEdgeConverter():
         next_edges = set()
 
         for G in stream:
+            print("Converting graph for time: {}".format(G.time), end="\r")
 
             # get edges in this timestamp, guarantee unique ids
             prev_edges = next_edges
@@ -68,6 +69,8 @@ class TrajectoryEdgeConverter():
                     'first': active[edge][0], 'last': active[edge][1]}
                 del active[edge]
                 yield edge_dict
+
+        print("")
 
 
     def get_edge_sorted(self, stream):
@@ -92,6 +95,7 @@ class TrajectoryEdgeConverter():
         next_edges = set()
 
         for G in stream:
+            print("Converting graph for time: {}".format(G.time), end="\r")
 
             # get edges in this timestamp, guarantee unique ids
             prev_edges = next_edges
@@ -122,7 +126,6 @@ class TrajectoryEdgeConverter():
 
                 yield edge_dict
 
-            print("Converted graph for time: {}".format(G.time), end="\r")
         print("")
 
 
