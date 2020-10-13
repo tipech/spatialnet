@@ -150,7 +150,7 @@ class TrajectoryEdgeConverter():
             iterator = self.get_edge(stream)
 
         id = str(stream.id)
-        id = id.replace("trajectory_networks", "trajectory_edges")
+        id = id.replace("trajectory_network", "trajectory_edges")
 
         return TrajectoryEdgeStream(items=iterator, id=id)
             

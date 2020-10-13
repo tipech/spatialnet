@@ -5,8 +5,12 @@ construction of trajectory networks from inital trajectory data.
 
 """
 
-import random
 from networkx import Graph
+import numpy as np
+from itertools import combinations
+from scipy.spatial.distance import pdist
+
+
 from common.trajectories import Particle, ParticleStream, TrajectoryStream
 from common.trajectories import TrajectoryNetStream
 
@@ -31,16 +35,25 @@ class TrajectoryNetConstructor():
         networkx.Graph
             The proximity network for that timestamp.
         """
+
+        print("Constructing trajectory network for time: {}"
+            .format(stream.time), end="\r")
         G = Graph()
         particles = list(stream)
         G.add_nodes_from((p.id, {'pos': p.position}) for p in particles)
 
-        for i in range(len(particles)):
-            for j in range(i):
-                if particles[i].get_distance_to(particles[j]) < distance:
-                    G.add_edge(particles[i].id, particles[j].id)
-                   
-        G.time = stream.time 
+        pos = np.array([p.position for p in particles])
+
+        if len(pos) > 1:
+            all_distances = pdist( np.array(pos))
+            valid_pairs = (np.array(list(combinations(range(len(pos)), 2)))
+                [all_distances < distance])
+
+            for node_from, node_to in valid_pairs:
+                if node_from != node_to:
+                    G.add_edge(particles[node_from].id, particles[node_to].id)
+
+        G.time = int(float(stream.time))
         return G
 
 
@@ -62,7 +75,7 @@ class TrajectoryNetConstructor():
         """
 
         id = stream.id
-        id = id.replace("trajectories", "trajectory_networks")
+        id = id.replace("trajectories", "trajectory_network")
         iterator = (self.get_proximitynet(ps, distance)
                 for ps in stream)
 

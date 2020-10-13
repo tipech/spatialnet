@@ -179,8 +179,8 @@ class BaseStream(collections.Iterator, SerializableObject, IdObject):
             file.close()
 
     @classmethod
-    def load(cls, file):
-        """Read a TrajectoryNetStream from a file.
+    def load(cls, file, cutoff=None):
+        """Read a BaseStream from a file.
 
         Params
         ------
@@ -196,9 +196,15 @@ class BaseStream(collections.Iterator, SerializableObject, IdObject):
         if isinstance(file, str) :
             file = open(file, 'r')
 
+
+        def read_file(file, cutoff):
+            for i, item in enumerate(ijson.items(file, 'items.item')):
+                yield cls.deserialize_item(item)
+                if cutoff is not None and i >= cutoff:
+                    break
+
         stream_id = os.path.splitext(os.path.basename(file.name))[0]
-        return cls(id=stream_id, items=(cls.deserialize_item(i)
-            for i in ijson.items(file, 'items.item')))
+        return cls(id=stream_id, items=read_file(file, cutoff))
 
 
     @staticmethod

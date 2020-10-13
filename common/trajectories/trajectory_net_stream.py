@@ -89,5 +89,5 @@ class TrajectoryNetStream(BaseStream):
         G.add_nodes_from((n['id'], {k:v for k,v in n.items() if k != 'id'})
             for n in item_dict['nodes'])
         G.add_edges_from((e['from'], e['to']) for e in item_dict['edges'])
-        G.time = item_dict['time']
+        G.time = int(float(item_dict['time']))
         return G
