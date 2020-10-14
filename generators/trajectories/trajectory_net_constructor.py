@@ -19,7 +19,7 @@ class TrajectoryNetConstructor():
     """Trajectory network constructor singleton class."""
 
 
-    def get_proximitynet(self, stream, distance):
+    def get_proximitynet(self, stream, distance, save_position=False):
         """Get the proximity network for a single timestamp.
         
         Params
@@ -29,6 +29,8 @@ class TrajectoryNetConstructor():
         distance : int or float
             The distance threshold within which objects are considered
             connected.
+        save_position : boolean (optional, default: False)
+            Whether to save particle positions as data in nodes.
         
         Returns
         -------
@@ -40,12 +42,15 @@ class TrajectoryNetConstructor():
             .format(stream.time), end="\r")
         G = Graph()
         particles = list(stream)
-        G.add_nodes_from((p.id, {'pos': p.position}) for p in particles)
+        if save_position:
+            G.add_nodes_from((p.id, {'pos': p.position}) for p in particles)
+        else:
+            G.add_nodes_from(p.id for p in particles)
 
         pos = np.array([p.position for p in particles])
 
         if len(pos) > 1:
-            all_distances = pdist( np.array(pos))
+            all_distances = pdist(np.array(pos))
             valid_pairs = (np.array(list(combinations(range(len(pos)), 2)))
                 [all_distances < distance])
 
