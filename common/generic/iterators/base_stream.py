@@ -179,13 +179,13 @@ class BaseStream(collections.Iterator, SerializableObject, IdObject):
             file.close()
 
     @classmethod
-    def load(cls, file, cutoff=None):
+    def load(cls, file):
         """Read a BaseStream from a file.
 
         Params
         ------
         file: file or str
-            file path or file object to load stream from
+            File path or file object to load stream from
             
         Returns
         -------
@@ -197,14 +197,12 @@ class BaseStream(collections.Iterator, SerializableObject, IdObject):
             file = open(file, 'r')
 
 
-        def read_file(file, cutoff):
+        def read_file(file):
             for i, item in enumerate(ijson.items(file, 'items.item')):
                 yield cls.deserialize_item(item)
-                if cutoff is not None and i >= cutoff:
-                    break
 
         stream_id = os.path.splitext(os.path.basename(file.name))[0]
-        return cls(id=stream_id, items=read_file(file, cutoff))
+        return cls(id=stream_id, items=read_file(file))
 
 
     @staticmethod

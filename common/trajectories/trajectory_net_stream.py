@@ -91,3 +91,35 @@ class TrajectoryNetStream(BaseStream):
         G.add_edges_from((e['from'], e['to']) for e in item_dict['edges'])
         G.time = int(float(item_dict['time']))
         return G
+
+
+    @classmethod
+    def load(cls, file, cutoff=None):
+        """Read a BaseStream from a file.
+
+        Params
+        ------
+        file: file or str
+            File path or file object to load stream from
+        cutoff: int (optional, default: None)
+            A cutoff time to stop.
+            
+        Returns
+        -------
+        TrajectoryNetStream
+            The corresponding stream iterator
+        """
+
+        if isinstance(file, str) :
+            file = open(file, 'r')
+
+
+        def read_file(file, cutoff):
+            for item in ijson.items(file, 'items.item'):
+                G = cls.deserialize_item(item)
+                yield G
+                if cutoff is not None and int(G.time) >= cutoff:
+                    break
+
+        stream_id = os.path.splitext(os.path.basename(file.name))[0]
+        return cls(id=stream_id, items=read_file(file, cutoff))
