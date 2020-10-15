@@ -4,7 +4,7 @@ Implements the TrajectoryNetStream class, a subclass of BaseStream
 that represents an iterator of Graph objects.
 
 """
-
+import os, ijson
 from networkx import Graph
 from common.generic.iterators import BaseStream
 from common.regions import Region

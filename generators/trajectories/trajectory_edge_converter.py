@@ -32,7 +32,7 @@ class TrajectoryEdgeConverter():
         self.sort = sort
 
 
-    def get_edge(self, stream):
+    def iterate_edge(self, stream):
         """Iteratively get single edges from a trajectory network.
 
         Items are sorted by end time or simply unsorted.
@@ -73,7 +73,7 @@ class TrajectoryEdgeConverter():
         print("")
 
 
-    def get_edge_sorted(self, stream):
+    def iterate_edge_sorted(self, stream):
         """Iteratively get single edges from a trajectory network.
 
         Uses a heap to make sure edges are sorted by start time.
@@ -144,10 +144,10 @@ class TrajectoryEdgeConverter():
         """
 
         if self.sort:
-            iterator = self.get_edge_sorted(stream)
+            iterator = self.iterate_edge_sorted(stream)
 
         else:
-            iterator = self.get_edge(stream)
+            iterator = self.iterate_edge(stream)
 
         id = str(stream.id)
         id = id.replace("trajectory_network", "trajectory_edges")
