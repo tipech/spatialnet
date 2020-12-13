@@ -5,6 +5,7 @@ a unique id.
 """
 
 from uuid import uuid4
+from copy import deepcopy
 
 class IdObject():
     """Generic class for an object with (auto) assigned id.
@@ -52,3 +53,15 @@ class IdObject():
         """
 
         return hash(self.id)
+
+
+    def copy(self):
+        """Return a copy of this object.
+
+        Returns
+        -------
+        IdObject
+            A copy this object.
+        """
+
+        return deepcopy(self)

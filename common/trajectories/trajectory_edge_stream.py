@@ -6,7 +6,7 @@ that represents an iterator of Particle streams.
 """
 
 import networkx as nx
-from common.generic.iterators import BaseStream
+from spatialnet.common.generic.iterators import BaseStream
 
 
 class TrajectoryEdgeStream(BaseStream):

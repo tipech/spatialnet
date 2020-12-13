@@ -7,7 +7,7 @@ behavior for all generators dealing with creating objects over time.
 
 import random
 
-from generators.common import Randoms
+from spatialnet.generators.common import Randoms
 
 
 class TimeGenerator():

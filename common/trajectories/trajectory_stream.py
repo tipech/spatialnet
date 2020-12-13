@@ -5,9 +5,9 @@ that represents an iterator of Particle streams.
 
 """
 
-from common.generic.iterators import BaseStream
-from common.trajectories import ParticleStream
-from common.regions import Region
+from spatialnet.common.generic.iterators import BaseStream
+from spatialnet.common.trajectories import ParticleStream
+from spatialnet.common.regions import Region
 
 
 class TrajectoryStream(BaseStream):
@@ -39,11 +39,16 @@ class TrajectoryStream(BaseStream):
         """
 
         trajectories = self.checkpoint()
+        
+        if len(trajectories) != 0:
+            lower = [min(p.position[d] for p_stream in trajectories
+                for p in p_stream) for d in range(self.dimension)]
+            upper = [max(p.position[d] for p_stream in trajectories
+                for p in p_stream) for d in range(self.dimension)]
 
-        lower = [min(p.position[d] for p_stream in trajectories
-            for p in p_stream) for d in range(self.dimension)]
-        upper = [max(p.position[d] for p_stream in trajectories
-            for p in p_stream) for d in range(self.dimension)]
+        else:
+            lower = [0] * self.dimension
+            upper = [1] * self.dimension
 
         return Region.from_coords(lower=lower, upper=upper)
 

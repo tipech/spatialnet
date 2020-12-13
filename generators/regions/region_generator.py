@@ -6,8 +6,8 @@ of regions.
 """
 import random
 
-from common.regions import Region, Interval, RegionStream
-from generators.common import Randoms, SpatialGenerator
+from spatialnet.common.regions import Region, Interval, RegionStream
+from spatialnet.generators.common import Randoms, SpatialGenerator
 
 class RegionGenerator(SpatialGenerator):
     """Region generator singleton class.

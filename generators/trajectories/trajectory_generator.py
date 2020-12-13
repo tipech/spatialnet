@@ -7,8 +7,8 @@ generation of particle objects.
 
 import random
 
-from common.trajectories import Particle, ParticleStream, TrajectoryStream
-from generators.common import Randoms, SpatialGenerator, TimeGenerator
+from spatialnet.common.trajectories import Particle, ParticleStream, TrajectoryStream
+from spatialnet.generators.common import Randoms, SpatialGenerator, TimeGenerator
 
 
 class TrajectoryGenerator(SpatialGenerator,TimeGenerator):
@@ -152,7 +152,7 @@ class TrajectoryGenerator(SpatialGenerator,TimeGenerator):
             particle.move()
 
             if self.bounds.contains(particle.position):
-                yield particle
+                yield particle.copy()
 
         
     def get_particle_stream(self, time_counts):

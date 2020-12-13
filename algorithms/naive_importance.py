@@ -1,6 +1,6 @@
 import networkx as nx
 
-from common.trajectories import TrajectoryStream
+from spatialnet.common.trajectories import TrajectoryStream
 from pprint import pprint
 
 class NaiveImportance():

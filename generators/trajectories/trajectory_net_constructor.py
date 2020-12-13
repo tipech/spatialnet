@@ -11,8 +11,8 @@ from itertools import combinations
 from scipy.spatial.distance import pdist
 
 
-from common.trajectories import Particle, ParticleStream, TrajectoryStream
-from common.trajectories import TrajectoryNetStream
+from spatialnet.common.trajectories import Particle, ParticleStream, TrajectoryStream
+from spatialnet.common.trajectories import TrajectoryNetStream
 
 
 class TrajectoryNetConstructor():

@@ -9,7 +9,7 @@ intervals and what that overlap interval is.
 """
 
 from functools import reduce
-from common.generic.objects import SerializableObject
+from spatialnet.common.generic.objects import SerializableObject
 
 
 class Interval(SerializableObject):

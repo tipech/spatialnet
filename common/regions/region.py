@@ -9,8 +9,8 @@ two regions and what that intersection region is.
 
 from functools import reduce
 
-from common.generic.objects import IdObject, TracedObject, SerializableObject
-from common.regions import Interval
+from spatialnet.common.generic.objects import IdObject, TracedObject, SerializableObject
+from spatialnet.common.regions import Interval
         
 
 class Region(IdObject,TracedObject,SerializableObject):

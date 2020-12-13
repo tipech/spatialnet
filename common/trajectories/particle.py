@@ -7,7 +7,7 @@ particle, with a number of dimensions and respective coords.
 
 from math import sqrt
 
-from common.generic.objects import IdObject, MovingObject, SerializableObject
+from spatialnet.common.generic.objects import IdObject, MovingObject, SerializableObject
 
 
 class Particle(IdObject,MovingObject,SerializableObject):

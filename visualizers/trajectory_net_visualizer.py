@@ -8,9 +8,9 @@ behavior for all visualizers dealing with drawing object on screen.
 from matplotlib import pyplot as plt
 from matplotlib import animation
 
-from common.regions import Region
-from common.trajectories import TrajectoryNetStream
-from visualizers import BaseVisualizer
+from spatialnet.common.regions import Region
+from spatialnet.common.trajectories import TrajectoryNetStream
+from spatialnet.visualizers import BaseVisualizer
 
 
 class TrajectoryNetVisualizer(BaseVisualizer):

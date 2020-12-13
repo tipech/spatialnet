@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# from .drawn_particle import *
 from .particle import *
 from .particle_stream import *
 from .trajectory_stream import *

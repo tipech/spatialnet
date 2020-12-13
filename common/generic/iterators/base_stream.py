@@ -9,7 +9,7 @@ Provides various helper methods.
 
 import os, json, ijson, collections
 from copy import copy
-from common.generic.objects import SerializableObject, IdObject
+from spatialnet.common.generic.objects import SerializableObject, IdObject
 
 
 class BaseStream(collections.Iterator, SerializableObject, IdObject):
@@ -52,36 +52,30 @@ class BaseStream(collections.Iterator, SerializableObject, IdObject):
         return next(self.items)
 
 
-    def checkpoint(self, recursive=False):
+    def checkpoint(self):
         """Run the full iterator, and save to a list.
 
         Returns
         -------
-        tuple : list, iterator
-            A list and iterator of this object's contents.
-        recursive : boolean
-            Flag to recursively checkpoint items and return iterator
+        tuple : list
+            A list of this object's contents.
         """
 
         # store regions to list and reset iterator
         item_list = list(self.items)
-        if len(item_list) == 0:
-            raise StopIteration
-
+        
         # if this is a stream of streams, checkpoint its items recursively.
-        if BaseStream.is_stream(item_list[0]):
-            stream_list = [stream.checkpoint(True) for stream in item_list]
-            item_list, iterators = zip(*stream_list)
-            item_list = list(item_list)
+        if len(item_list) == 0:
+            item_list = []
 
-            self.items = iter(iterators)
+        elif BaseStream.is_stream(item_list[0]):
+            self.items = iter(item_list)
+            item_list = [stream.checkpoint() for stream in item_list]
+
         else:
             self.items = iter(item_list)
 
-        if recursive:
-            return item_list, self
-        else:
-            return item_list
+        return item_list
 
 
     def fork(self, recursive=False):

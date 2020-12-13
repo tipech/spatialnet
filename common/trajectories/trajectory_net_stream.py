@@ -6,8 +6,8 @@ that represents an iterator of Graph objects.
 """
 import os, ijson
 from networkx import Graph
-from common.generic.iterators import BaseStream
-from common.regions import Region
+from spatialnet.common.generic.iterators import BaseStream
+from spatialnet.common.regions import Region
 
 
 class TrajectoryNetStream(BaseStream):

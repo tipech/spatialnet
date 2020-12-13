@@ -7,8 +7,8 @@ behavior for all generators dealing with creating objects within a space.
 
 import random
 
-from common.regions import Region,Interval
-from generators.common import Randoms
+from spatialnet.common.regions import Region,Interval
+from spatialnet.generators.common import Randoms
 
 
 class SpatialGenerator():

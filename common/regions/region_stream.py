@@ -5,8 +5,8 @@ that represents an iterator of Regions.
 
 """
 
-from common.generic.iterators import BaseStream
-from common.regions import Region
+from spatialnet.common.generic.iterators import BaseStream
+from spatialnet.common.regions import Region
 
 
 class RegionStream(BaseStream):

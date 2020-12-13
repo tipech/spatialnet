@@ -7,7 +7,7 @@ behavior for all visualizers dealing with drawing object on screen.
 
 from matplotlib import pyplot as plt
 
-from common.regions import Region
+from spatialnet.common.regions import Region
 
 
 class BaseVisualizer():
@@ -51,8 +51,10 @@ class BaseVisualizer():
         self.ax = plt.axes(xlim=(space[0].lower, space[0].upper),
                            ylim=(space[1].lower, space[1].upper),
                            xticks=[], yticks=[])
+        self.ax.set_aspect('equal')
 
         self.shapes = {}
+        self.labels = {}
 
 
     def show(self):

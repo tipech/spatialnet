@@ -5,8 +5,8 @@ that represents an iterator of Regions.
 
 """
 
-from common.generic.iterators import BaseStream
-from common.trajectories import Particle
+from spatialnet.common.generic.iterators import BaseStream
+from spatialnet.common.trajectories import Particle
 
 
 class ParticleStream(BaseStream):

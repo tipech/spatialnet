@@ -7,8 +7,8 @@ behavior for all visualizers dealing with drawing object on screen.
 
 from matplotlib import pyplot as plt
 
-from common.regions import Region, RegionStream
-from visualizers import BaseVisualizer
+from spatialnet.common.regions import Region, RegionStream
+from spatialnet.visualizers import BaseVisualizer
 
 
 class RegionVisualizer(BaseVisualizer):

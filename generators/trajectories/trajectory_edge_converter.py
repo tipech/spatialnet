@@ -7,9 +7,7 @@ conversion of trajectory networks to edge stream format.
 
 import random, heapq
 from networkx import Graph
-from common.trajectories import TrajectoryNetStream, TrajectoryEdgeStream
-
-from pprint import pprint
+from spatialnet.common.trajectories import TrajectoryNetStream, TrajectoryEdgeStream
 
 
 class TrajectoryEdgeConverter():
