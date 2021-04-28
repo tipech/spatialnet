@@ -30,9 +30,8 @@ class TestFrame(unittest.TestCase):
     gdf = gpd.GeoDataFrame({'pID': ['ped1', 'ped2'], 'geometry': [Point(1, 2), Point(2, 1)]})
 
     # true internal representation
-    internal = {'ped1': [1.0, 2.0], 'ped2': [2.0, 1.0]}
-    frame1 = Frame(1, internal)
-    frame2 = Frame(2, internal)
+    frame1 = Frame(1, {'ped1': [1.0, 2.0], 'ped2': [2.0, 1.0]})
+    frame2 = Frame(2, {'ped1': [1.0, 2.0], 'ped2': [2.0, 1.0]})
 
     def test_dict(self):
         self.assertEqual(Frame(1, self.dict_tuple1), self.frame1)

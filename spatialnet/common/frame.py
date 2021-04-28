@@ -123,7 +123,7 @@ class Frame(UserDict, JSONSerializable):
 
         Params
         ------
-        frames : list, iterable or pyfunctional.Sequence
+        frames : list, iterable or pyfunctional.Sequence of Frame objects
             Input collection of Frame objects.
 
         Returns

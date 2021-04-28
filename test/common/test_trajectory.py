@@ -32,9 +32,8 @@ class TestTrajectory(unittest.TestCase):
     linestr = ([0, 1], LineString([(1, 2), (2, 1)]))
 
     # true internal representation
-    internal = {0: [1.0, 2.0], 1: [2.0, 1.0]}
-    trajectory1 = Trajectory('ped1', internal)
-    trajectory2 = Trajectory('ped2', internal)
+    trajectory1 = Trajectory('ped1', {0: [1.0, 2.0], 1: [2.0, 1.0]})
+    trajectory2 = Trajectory('ped2', {0: [1.0, 2.0], 1: [2.0, 1.0]})
 
     def test_dict(self):
         self.assertEqual(Trajectory('ped1', self.dict_tuple1), self.trajectory1)

@@ -3,6 +3,7 @@ import pandas as pd
 import geopandas as gpd
 from collections import UserDict
 from shapely.geometry import Point, LineString
+from functional import seq
 from numbers import Number
 
 from . import JSONSerializable
@@ -129,4 +130,27 @@ class Trajectory(UserDict, JSONSerializable):
             dict object to turn into a Trajectory.
         """
         return Trajectory(**d)
+
+
+    @staticmethod
+    def trajectories_to_gdf(trajectories):
+        """Convert a list or sequence of trajectories into a GeoDataFrame.
+
+        Params
+        ------
+        trajectories : list or iterable of Trajectory objects
+            Input collection of Trajectory objects.
+
+        Returns
+        -------
+        pandas.GeoDataFrame
+            GeoDataFrame with columns 'pID' and 'geometry'
+        """
+
+        # convert to list if it isn't
+        trajectories = list(trajectories)
+
+        return gpd.GeoDataFrame({
+            'pIDs': [t.pID for t in trajectories],
+            'geometry': [t.get_linestring() for t in trajectories]})
 
