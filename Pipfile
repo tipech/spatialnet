@@ -10,6 +10,12 @@ ijson = "*"
 jsonpickle = "*"
 matplotlib = "*"
 networkx = "*"
+pandas = "*"
+numpy = "*"
+geopandas = "*"
+shapely = "*"
+pyfunctional = "*"
+orjson = "*"
 
 [requires]
 python_version = "3.5"
