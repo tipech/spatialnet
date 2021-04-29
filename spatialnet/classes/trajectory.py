@@ -3,10 +3,8 @@ import pandas as pd
 import geopandas as gpd
 from collections import UserDict
 from shapely.geometry import Point, LineString
-from functional import seq
-from numbers import Number
 
-from . import JSONSerializable
+from .json_serializable import JSONSerializable
 
 class Trajectory(UserDict, JSONSerializable):
     """Contains a sequence of times and positions for a given particle."""
@@ -100,9 +98,21 @@ class Trajectory(UserDict, JSONSerializable):
                 self.data = {int(k):[float(c) for c in v]
                                 for k,v in self.data.items()}
 
-    def get_linestring(self):
-        """Get the trajectory points as a LinString."""
-        return LineString(list(self.data.values()))
+    def get_geometry(self):
+        """Get the trajectory as a LineString, or Point if not moving."""
+        
+        # see stackoverflow.com/questions/480214
+        def drop_dupes(seq):
+            seen = set()
+            seen_add = seen.add
+            return [x for x in seq if not (x in seen or seen_add(x))]
+
+        # check that there is actually movement or it's only a single point
+        p_list = drop_dupes(tuple(p) for p in self.data.values())
+        if len(p_list) > 1:
+            return LineString(p_list)
+        else:
+            return Point(p_list[0])
 
 
     def __eq__(self, other):
@@ -132,25 +142,12 @@ class Trajectory(UserDict, JSONSerializable):
         return Trajectory(**d)
 
 
-    @staticmethod
-    def trajectories_to_gdf(trajectories):
-        """Convert a list or sequence of trajectories into a GeoDataFrame.
+def read_trajectory(source):
+    """Get a Trajectory object from a JSON file, buffer or string.
 
-        Params
-        ------
-        trajectories : list or iterable of Trajectory objects
-            Input collection of Trajectory objects.
-
-        Returns
-        -------
-        pandas.GeoDataFrame
-            GeoDataFrame with columns 'pID' and 'geometry'
-        """
-
-        # convert to list if it isn't
-        trajectories = list(trajectories)
-
-        return gpd.GeoDataFrame({
-            'pIDs': [t.pID for t in trajectories],
-            'geometry': [t.get_linestring() for t in trajectories]})
-
+    Params
+    ------
+    source : str or file handle
+        File path, object or JSON string.
+    """
+    return Trajectory.from_json(source)

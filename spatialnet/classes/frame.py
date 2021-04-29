@@ -3,11 +3,8 @@ import pandas as pd
 import geopandas as gpd
 from collections import UserDict
 from shapely.geometry import Point
-import functional
-from numbers import Number
 
 from .json_serializable import JSONSerializable
-from .trajectory import Trajectory
 
 class Frame(UserDict, JSONSerializable):
     """Contains a set of particles and their positions in a timestep."""
@@ -104,7 +101,6 @@ class Frame(UserDict, JSONSerializable):
         """Get a string representation of this object."""
         return "Frame(t={},#points={})".format(self.time, len(self.data))
 
-
     @classmethod
     def from_dict(cls, d):
         """Get a Frame object from a dict object.
@@ -117,32 +113,12 @@ class Frame(UserDict, JSONSerializable):
         return Frame(**d)
 
 
-    @staticmethod
-    def frames_to_trajectories(frames):
-        """Convert a list or sequence of frames into one of trajectories.
+def read_frame(source):
+    """Get a Frame object from a JSON file, buffer or string.
 
-        Params
-        ------
-        frames : list, iterable or pyfunctional.Sequence of Frame objects
-            Input collection of Frame objects.
-
-        Returns
-        -------
-        pyfunctional.Sequence if frames is Sequence, else list
-            Collection of Trajectory objects, same type as frames
-        """
-
-        # determine if input was sequence, if not convert it and remember
-        nonseq = False
-        if not isinstance(frames, functional.pipeline.Sequence):
-            nonseq = True
-            frames = functional.seq(frames)
-
-        # flatten, group by particle id and convert to Trajectory objects
-        records = frames.flat_map(lambda f: ( (pID,(f.time,pos))
-            for pID,pos in f.items()) )
-        trajectories = records.group_by_key().map(lambda x: Trajectory(*x))
-
-        if nonseq:
-            return trajectories.to_list()
-        return trajectories
+    Params
+    ------
+    source : str or file handle
+        File path, object or JSON string.
+    """
+    return Frame.from_json(source)

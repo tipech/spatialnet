@@ -42,10 +42,9 @@ class JSONSerializable():
         elif not 'b' in path_or_buf.mode:
             path_or_buf.write(json.dumps(d))
 
-
     @classmethod
     def from_json(cls, source):
-        """Get a Frame object from a JSON path, buffer or string.
+        """Get an object from a JSON path, buffer or string.
 
         Params
         ------
@@ -66,3 +65,10 @@ class JSONSerializable():
             d = orjson.loads(source.read())
 
         return cls(**d)
+
+
+    @classmethod
+    def from_file(cls, source):
+        """Alias for cls.from_json."""
+
+        return cls.from_json(source)
